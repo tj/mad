@@ -27,11 +27,16 @@
 ## Page lookup
 
   Use the __MAD_PATH__ environment variable to control
-  where `mad(1)` will look for a manual page. The __CWD__
-  is always part of the lookup. The ".md" extension may
-  be omitted.
+  where `mad(1)` will look for a manual page.
+  The ".md" extension may be omitted.
 
   For example:
   
     MAD_PATH="/usr/share/mad:share/mad"
+
+  The following paths will always be searched:
+  
+     - .
+     - /usr/local/share/mad
+     - /usr/share/mad
 

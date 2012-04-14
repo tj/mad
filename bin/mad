@@ -9,7 +9,7 @@ VERSION="0.0.1"
 display() {
   IFS=":"
   local page=$1
-  local paths="$MAD_PATH:."
+  local paths="$MAD_PATH:/usr/local/share/mad:/usr/share/mad:."
 
   for path in $paths; do
     local file=$path/$page
@@ -21,7 +21,7 @@ display() {
   echo
   echo "  Failed to locate '$page'"
   echo
-  echo "    MAD_PATH=\"$MAD_PATH\""
+  echo "    MAD_PATH=\"$paths\""
   echo
   exit 1
 }
