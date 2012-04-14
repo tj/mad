@@ -4,7 +4,7 @@ PREFIX=/usr/local
 install:
 	mkdir -p $(PREFIX)/share/mad
 	cp -f bin/mad $(PREFIX)/bin/mad
-	cp -f share/mad/mad.md $(PREFIX)
+	cp -f share/mad/mad.md $(PREFIX)/share/mad/mad.md
 
 uninstall:
 	rm -f $(PREFIX)/bin/mad
