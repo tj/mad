@@ -2,13 +2,6 @@
 
 VERSION="0.0.1"
 
-# file required
-
-if test $# -eq 0; then
-  echo "<file> required"
-  exit
-fi
-
 #
 # Display <file>
 #
@@ -26,14 +19,23 @@ display() {
     | less -R
 }
 
+# file required
+
+if test $# -eq 0; then
+  echo "<file> required"
+  exit
+fi
+
 # parse args
 
 case $1 in
   -v|--version)
     echo $VERSION
-    exit
     ;;
   -h|--help|help)
     display $(dirname $0)/../share/mad/mad.md
+    ;;
+  *)
+    display $1
     ;;
 esac
