@@ -3,6 +3,30 @@
 VERSION="0.0.1"
 
 #
+# Display <page> with lookup via MAD_PATH.
+#
+
+display() {
+  IFS=":"
+  local page=$1
+  local paths="$MAD_PATH:."
+
+  for path in $paths; do
+    local file=$path/$page
+    local ext=$path/$page.md
+    test -f $file && display_file $file
+    test -f $ext && display_file $ext
+  done
+
+  echo
+  echo "  Failed to locate '$page'"
+  echo
+  echo "    MAD_PATH=\"$MAD_PATH\""
+  echo
+  exit 1
+}
+
+#
 # Display <file>
 #
 
@@ -17,6 +41,7 @@ display_file() {
     | perl -pe 's|    (.+)|    \e[90m\1\e[0m|g' \
     | perl -pe 's|^|  |' \
     | less -R
+  exit
 }
 
 #
@@ -42,6 +67,6 @@ case $1 in
     display_mad_usage
     ;;
   *)
-    display_file $1
+    display $1
     ;;
 esac
