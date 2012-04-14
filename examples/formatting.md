@@ -5,4 +5,5 @@
 
   - _underlined_
   - **bold**
+  - `code`
 
