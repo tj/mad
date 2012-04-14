@@ -19,12 +19,18 @@ display() {
     | less -R
 }
 
+#
+# Display the usage for mad(1).
+#
+
+display_mad_usage() {
+  display $(dirname $0)/../share/mad/mad.md
+  exit
+}
+
 # file required
 
-if test $# -eq 0; then
-  echo "<file> required"
-  exit
-fi
+test $# -eq 0 && display_mad_usage
 
 # parse args
 
@@ -33,7 +39,7 @@ case $1 in
     echo $VERSION
     ;;
   -h|--help|help)
-    display $(dirname $0)/../share/mad/mad.md
+    display_mad_usage
     ;;
   *)
     display $1
