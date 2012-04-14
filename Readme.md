@@ -29,11 +29,9 @@
 ## About
 
   I _love_ man pages, however they are annoying to write by hand,
-  and often converted from markdown documentation. Also `man` in my
-  opinion does a poor job of displaying the information, the whitespace
-  makes them difficult to read. `mad(1)` is effectively the idea, but
-  write your manuals in markdown like you would anyway, re-use them
-  in your github readmes, wikis, or use markdown to HTML conversion
+  and often converted from markdown anyway. `mad(1)` is effectively
+  the same idea, but write your manuals in markdown like you would anyway,
+  re-use them in your github readmes, wikis, or use markdown to HTML conversion
   tools.
 
   `mad(1)` pipes to `less(1)` so you get the same paging / searching
