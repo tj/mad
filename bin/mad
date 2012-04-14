@@ -6,7 +6,7 @@ VERSION="0.0.1"
 # Display <file>
 #
 
-display() {
+display_file() {
   cat $1 \
     | perl -pe 's|^#+ *(.+)|\e[1m\1\e[0m|g' \
     | perl -pe 's|`(.+?)`|\e[90m\1\e[0m|g' \
@@ -24,7 +24,7 @@ display() {
 #
 
 display_mad_usage() {
-  display $(dirname $0)/../share/mad/mad.md
+  display_file $(dirname $0)/../share/mad/mad.md
   exit
 }
 
@@ -42,6 +42,6 @@ case $1 in
     display_mad_usage
     ;;
   *)
-    display $1
+    display_file $1
     ;;
 esac
