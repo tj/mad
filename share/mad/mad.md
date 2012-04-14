@@ -11,7 +11,7 @@
 
     Options:
 
-      -V, --version   output cpm version
+      -V, --version   output mad version
       -h, --help      output this help information
 
 ## Installation
