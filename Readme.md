@@ -36,3 +36,9 @@
 
   `mad(1)` pipes to `less(1)` so you get the same paging / searching
   goodness that you expect from `man(1)`.
+
+## Screenshots
+
+  Jade manual:
+  
+  ![jade manual markdown](http://f.cl.ly/items/3g1v2W213S2N390B201q/Screen%20Shot%202012-04-14%20at%201.54.35%20PM.png)
