@@ -36,3 +36,5 @@
   in your github readmes, wikis, or use markdown to HTML conversion
   tools.
 
+  `mad(1)` pipes to `less(1)` so you get the same paging / searching
+  goodness that you expect from `man(1)`.
