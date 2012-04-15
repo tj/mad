@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 VERSION="0.1.0"
+REMOTE=git@github.com:visionmedia/mad-pages.git
 
 #
 # Display <page> with lookup via MAD_PATH.
@@ -53,6 +54,23 @@ display_mad_usage() {
   exit
 }
 
+#
+# Install remote manuals.
+#
+
+install_all_remote() {
+  local path=/usr/local/share/mad
+  echo
+  echo "  ... cloning repo"
+  cd /tmp
+  git clone --depth 1 $REMOTE mad-pages
+  cd mad-pages
+  for page in *.md; do
+    echo "  ... installing $page"
+    cp -f $page $path/$page
+  done
+}
+
 # file required
 
 test $# -eq 0 && display_mad_usage
@@ -65,6 +83,9 @@ case $1 in
     ;;
   -h|--help|help)
     display_mad_usage
+    ;;
+  -u|--update)
+    install_all_remote
     ;;
   *)
     display $1

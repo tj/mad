@@ -13,6 +13,7 @@
 
     Options:
 
+      -u, --update    update remote mad-pages
       -V, --version   output cpm version
       -h, --help      output this help information
 
@@ -36,6 +37,12 @@
 
   `mad(1)` pipes to `less(1)` so you get the same paging / searching
   goodness that you expect from `man(1)`.
+
+## Page repository
+
+  [mad-pages](https://github.com/visionmedia/mad-pages) is a collection of
+  useful mad pages such as language operator precedence tables, http status
+  codes, mime type tables etc.
 
 ## Page lookup
 

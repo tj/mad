@@ -11,6 +11,7 @@
 
     Options:
 
+      -u, --update    update remote mad-pages
       -V, --version   output mad version
       -h, --help      output this help information
 
