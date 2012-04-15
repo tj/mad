@@ -69,6 +69,8 @@ install_all_remote() {
     echo "  ... installing $page"
     cp -f $page $path/$page
   done
+  echo "  ... complete"
+  echo
 }
 
 # file required
