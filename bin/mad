@@ -33,14 +33,15 @@ display() {
 
 display_file() {
   cat $1 \
-    | perl -pe 's|^#+ *(.+)|\e[1m\1\e[0m|g' \
-    | perl -pe 's|`(.+?)`|\e[90m\1\e[0m|g' \
-    | perl -pe 's|\*\*(.+?)\*\*|\e[1m\1\e[0m|g' \
-    | perl -pe 's|__(.+?)__|\e[1m\1\e[0m|g' \
-    | perl -pe 's|\*(.+?)\*|\e[4m\1\e[0m|g' \
-    | perl -pe 's|_(.+?)_|\e[4m\1\e[0m|g' \
-    | perl -pe 's|    (.+)|    \e[90m\1\e[0m|g' \
-    | perl -pe 's|^|  |' \
+    | perl -pe '
+        s|^#+ *(.+)|\e[1m\1\e[0m|g; \
+        s|`(.+?)`|\e[90m\1\e[0m|g; \
+        s|\*\*(.+?)\*\*|\e[1m\1\e[0m|g; \
+        s|__(.+?)__|\e[1m\1\e[0m|g; \
+        s|\*(.+?)\*|\e[4m\1\e[0m|g; \
+        s|_(.+?)_|\e[4m\1\e[0m|g; \
+        s|    (.+)|    \e[90m\1\e[0m|g; \
+        s|^|  |;' \
     | less -R
   exit
 }
