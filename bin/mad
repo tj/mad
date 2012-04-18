@@ -4,6 +4,22 @@ VERSION="0.2.0"
 REMOTE=git@github.com:visionmedia/mad-pages.git
 
 #
+# List all <pages>
+#
+
+list_pages() {
+  IFS=":"
+  local paths="$MAD_PATH:/usr/local/share/mad:/usr/share/mad"
+
+  echo
+  echo -e "  \033[1mmad pages\033[0m"
+  echo
+  for path in $paths; do
+    test ! -z $path && test -d $path && find $path -type f -print0 | xargs -0 basename | grep -iv 'readme*' | grep '.md$' | perl -pe 's|^(.*)\.md$|    \1|;'
+  done
+}
+
+#
 # Display <page> with lookup via MAD_PATH.
 #
 
@@ -89,6 +105,9 @@ case $1 in
     ;;
   -u|--update)
     install_all_remote
+    ;;
+  -l|--list)
+    list_pages
     ;;
   *)
     display $1
