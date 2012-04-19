@@ -76,7 +76,7 @@ display_mad_usage() {
 #
 
 install_all_remote() {
-  local path=/usr/local/share/mad
+  local path=${MAD_PATH:-/usr/local/share/mad}
   echo
   echo "  ... cloning repo"
   cd /tmp && rm -fr mad-pages
