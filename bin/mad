@@ -13,7 +13,7 @@ MAD_CONFIG=${MAD_CONFIG:-$CONFIG}
 display() {
   IFS=":"
   local page=$1
-  local paths=".:$MAD_PATH:/usr/local/share/mad:/usr/share/mad"
+  local paths=".:$MAD_PATH:$(dirname $0)/../share/mad:/usr/share/mad"
 
   for path in $paths; do
     local file=$path/$page
@@ -76,7 +76,7 @@ display_mad_usage() {
 #
 
 install_all_remote() {
-  local path=/usr/local/share/mad
+  local path=$(dirname $0)/../share/mad
   echo
   echo "  ... cloning repo"
   cd /tmp && rm -fr mad-pages
