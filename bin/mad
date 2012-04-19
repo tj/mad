@@ -20,6 +20,7 @@ list_pages() {
   for path in $paths; do
     test ! -z $path && test -d $path && find $path -type f -print0 | xargs -0 basename | grep -iv 'readme*' | grep '.md$' | perl -pe 's|^(.*)\.md$|    \1|;'
   done
+  echo
 }
 
 #
@@ -138,6 +139,7 @@ case $1 in
     ;;
   -U|--update-self)
     install_mad
+    ;;
   -l|--list)
     list_pages
     ;;
