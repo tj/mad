@@ -42,7 +42,7 @@
 
   [mad-pages](https://github.com/visionmedia/mad-pages) is a collection of
   useful mad pages such as language operator precedence tables, http status
-  codes, mime type tables etc.
+  codes, mime type tables etc. Use `mad --update` to install/re-install them.
 
 ## Page lookup
 
