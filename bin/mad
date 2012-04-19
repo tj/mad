@@ -4,6 +4,7 @@ VERSION="0.3.0"
 REMOTE=git@github.com:visionmedia/mad-pages.git
 REMOTE_MAD=git@github.com:visionmedia/mad.git
 CONFIG=$(dirname $0)/../etc/mad.conf
+MAD_CONFIG=${MAD_CONFIG:-$CONFIG}
 
 #
 # Display <page> with lookup via MAD_PATH.
@@ -34,7 +35,7 @@ display() {
 #
 
 get() {
-  cat $CONFIG | grep $1 | awk '{ print $2 }'
+  cat $MAD_CONFIG | grep $1 | awk '{ print $2 }'
 }
 
 #

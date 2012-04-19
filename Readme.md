@@ -61,6 +61,18 @@
      - /usr/local/share/mad
      - /usr/share/mad
 
+## Configuration
+
+  By default `mad(1)` installs and sources `/usr/local/etc/mad.conf` for its formatting. You may edit this file directly, or if you're scared of overwriting it
+  when updating `mad(1)` you can copy this file to something like `~/mad.conf` and `export MAD_CONFIG=~/mad.conf`.
+
+```
+heading: 1m
+code: 90m
+strong: 1m
+em: 4m
+```
+
 ## Screenshots
 
   Jade manual:
