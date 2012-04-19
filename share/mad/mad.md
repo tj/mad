@@ -11,9 +11,10 @@
 
     Options:
 
-      -u, --update    update remote mad-pages
-      -V, --version   output mad version
-      -h, --help      output this help information
+      -U, --update-self  update mad(1) itself
+      -u, --update       update remote mad-pages
+      -V, --version      output mad version
+      -h, --help         output this help information
 
 ## Installation
 
