@@ -2,7 +2,7 @@
 
 VERSION="0.2.0"
 REMOTE=git@github.com:visionmedia/mad-pages.git
-CONFIG=mad.conf
+CONFIG=$(dirname $0)/../etc/mad.conf
 
 #
 # Display <page> with lookup via MAD_PATH.
