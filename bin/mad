@@ -2,6 +2,7 @@
 
 VERSION="0.2.0"
 REMOTE=git@github.com:visionmedia/mad-pages.git
+CONFIG=mad.conf
 
 #
 # Display <page> with lookup via MAD_PATH.
@@ -28,19 +29,32 @@ display() {
 }
 
 #
+# Get <prop> from config.
+#
+
+get() {
+  cat $CONFIG | grep $1 | awk '{ print $2 }'
+}
+
+#
 # Display <file>
 #
 
 display_file() {
+  local heading=$(get heading)
+  local code=$(get code)
+  local strong=$(get strong)
+  local em=$(get em)
+
   cat $1 \
     | perl -pe "
-        s|^#+ *(.+)|\e[1m\1\e[0m|g; \
-        s|\`(.+?)\`|\e[90m\1\e[0m|g; \
-        s|\*\*(.+?)\*\*|\e[1m\1\e[0m|g; \
-        s|__(.+?)__|\e[1m\1\e[0m|g; \
-        s|\*(.+?)\*|\e[4m\1\e[0m|g; \
-        s|_(.+?)_|\e[4m\1\e[0m|g; \
-        s|    (.+)|    \e[90m\1\e[0m|g; \
+        s|^#+ *(.+)|\e[$heading\1\e[0m|g; \
+        s|\`(.+?)\`|\e[$code\1\e[0m|g; \
+        s|\*\*(.+?)\*\*|\e[$strong\1\e[0m|g; \
+        s|__(.+?)__|\e[$strong\1\e[0m|g; \
+        s|\*(.+?)\*|\e[$em\1\e[0m|g; \
+        s|_(.+?)_|\e[$em\1\e[0m|g; \
+        s|    (.+)|    \e[$code\1\e[0m|g; \
         s|^|  |;" \
     | less -R
   exit
