@@ -7,6 +7,22 @@ CONFIG=$(dirname $0)/../etc/mad.conf
 MAD_CONFIG=${MAD_CONFIG:-$CONFIG}
 
 #
+# List all <pages>
+#
+
+list_pages() {
+  IFS=":"
+  local paths="$MAD_PATH:/usr/local/share/mad:/usr/share/mad"
+
+  echo
+  echo -e "  \033[1mmad pages\033[0m"
+  echo
+  for path in $paths; do
+    test ! -z $path && test -d $path && find $path -type f -print0 | xargs -0 basename | grep -iv 'readme*' | grep '.md$' | perl -pe 's|^(.*)\.md$|    \1|;'
+  done
+}
+
+#
 # Display <page> with lookup via MAD_PATH.
 #
 
@@ -122,6 +138,8 @@ case $1 in
     ;;
   -U|--update-self)
     install_mad
+  -l|--list)
+    list_pages
     ;;
   *)
     display $1

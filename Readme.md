@@ -15,8 +15,9 @@
 
       -U, --update-self update mad(1) itself
       -u, --update      update remote mad-pages
-      -V, --version     output cpm version
+      -v, --version     output cpm version
       -h, --help        output this help information
+      -l, --list      list mad-pages
 
 ## Installation
 
