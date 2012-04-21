@@ -140,7 +140,7 @@ case $1 in
   -U|--update-self)
     install_mad
     ;;
-  -l|--list)
+  -l|--list|ls|list)
     list_pages
     ;;
   *)
