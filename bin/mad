@@ -134,10 +134,10 @@ case $1 in
   -h|--help|help)
     display_mad_usage
     ;;
-  -u|--update)
+  -u|--update|update)
     install_all_remote
     ;;
-  -U|--update-self)
+  -U|--update-self|update-self)
     install_mad
     ;;
   -l|--list|ls|list)
