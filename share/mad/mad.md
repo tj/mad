@@ -15,7 +15,8 @@
       -u, --update       update remote mad-pages
       -v, --version      output mad version
       -h, --help         output this help information
-      -l, --list      list mad-pages
+      -l, --list         list mad-pages
+      -                  read from stdin
 
 ## Installation
 

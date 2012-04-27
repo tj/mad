@@ -56,6 +56,14 @@ get() {
 }
 
 #
+# Display from stdin.
+#
+
+display_from_stdin() {
+  display_file <(cat)
+}
+
+#
 # Display <file>
 #
 
@@ -142,6 +150,9 @@ case $1 in
     ;;
   -l|--list|ls|list)
     list_pages
+    ;;
+  -)
+    display_from_stdin
     ;;
   *)
     display $1
