@@ -18,7 +18,13 @@ list_pages() {
   printf "  \033[1mmad pages:\033[0m\n"
   echo
   for path in $paths; do
-    test ! -z $path && test -d $path && find $path -type f -print0 | xargs -0 basename | grep -iv 'readme*' | grep '.md$' | perl -pe 's|^(.*)\.md$|    \1|;'
+    test ! -z $path \
+      && test -d $path \
+      && find $path -type f -print0 \
+      | xargs -0 basename \
+      | grep -iv 'readme*' \
+      | grep '.md$' \
+      | perl -pe 's|^(.*)\.md$|    \1|;'
   done
   echo
 }
