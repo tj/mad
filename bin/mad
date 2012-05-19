@@ -88,6 +88,7 @@ display_file() {
         s|\*(.+?)\*|\e[$em\1\e[0m|g; \
         s|_(.+?)_|\e[$em\1\e[0m|g; \
         s|    (.+)|    \e[$code\1\e[0m|g; \
+        s|<(.+?)>||g; \
         s|^|  |;" \
     | less -R
   exit
