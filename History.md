@@ -1,4 +1,14 @@
 
+0.4.0 / 2012-05-19 
+==================
+
+  * Added stdin support
+  * Added alias --update as update
+  * Added alias --list as "list" and "ls"
+  * Added --update-self
+  * Added `list`
+  * Fixed: remove html tags
+
 0.3.0 / 2012-04-18 
 ==================
 
