@@ -21,7 +21,7 @@ list_pages() {
     test ! -z $path \
       && test -d $path \
       && find $path -type f -print0 \
-      | xargs -0 basename \
+      | xargs -0 basename -a \
       | grep -iv 'readme*' \
       | grep '.md$' \
       | perl -pe 's|^(.*)\.md$|    \1|;'
