@@ -79,6 +79,24 @@ display_file() {
   local strong=$(get strong)
   local em=$(get em)
 
+  # Not any pager is supported, only the most popular:
+  # - more
+  local more_options=""
+  # - less
+  local less_options="-R"
+  # - vimpager
+  local vimpager_options=""
+  # the others may be supported or not, excluding the following,
+  # known as unsupported:
+  # - most
+  local pagers_unsupported="\(most\)" # sed regexp
+
+  # choose pager
+  local pager_default="less"
+  local pager_cmd=${PAGER:-${pager_default}}
+  # Replace unsupported pagers with the default one.
+  pager_cmd=$(echo ${pager_cmd} | sed "s|${pagers_unsupported}|${pager_default}|")
+
   cat $1 \
     | perl -pe "
         s|^#+ *(.+)|\e[$heading\1\e[0m|g; \
@@ -90,7 +108,7 @@ display_file() {
         s|    (.+)|    \e[$code\1\e[0m|g; \
         s|<(.+?)>||g; \
         s|^|  |;" \
-    | less -R
+    | ${pager_cmd} $(eval "echo \$${pager_cmd}_options")
   exit
 }
 
