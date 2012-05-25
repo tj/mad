@@ -3,28 +3,35 @@
 VERSION="0.4.0"
 REMOTE=git://github.com/visionmedia/mad-pages.git
 REMOTE_MAD=git://github.com/visionmedia/mad.git
-CONFIG=$(dirname $0)/../etc/mad.conf
+CONFIG=${0%/*}/../etc/mad.conf
 MAD_CONFIG=${MAD_CONFIG:-$CONFIG}
+PAGER=${PAGER:-less}
 
 #
 # List all <pages>
 #
-
 list_pages() {
-  IFS=":"
   local paths="$MAD_PATH:/usr/local/share/mad:/usr/share/mad"
+  local readme_re='^readme'
+  # load paths into array
+  local path_array=
+  IFS=: read -a path_array <<< "$paths"
+
+  shopt -s nocasematch
 
   echo
   printf "  \033[1mmad pages:\033[0m\n"
   echo
-  for path in $paths; do
-    test ! -z $path \
-      && test -d $path \
-      && find $path -type f -print0 \
-      | xargs -0 basename -a \
-      | grep -iv 'readme*' \
-      | grep '.md$' \
-      | perl -pe 's|^(.*)\.md$|    \1|;'
+  for path in "${path_array[@]}"; do
+    [[ -z "$path" || ! -d "$path" ]] && continue
+    while read -r -d '' file; do
+      file=${file##*/} # basename
+      ext=${file##*.} # extension
+      raw_file=${file%.*} # filename w/o extension
+      if [[ "$ext" == "md" && ! "$raw_file" =~ $readme_re ]]; then
+        printf '    %s\n' "$raw_file"
+      fi
+    done< <(find "$path" -type f -print0)
   done
   echo
 }
@@ -34,15 +41,17 @@ list_pages() {
 #
 
 display() {
-  IFS=":"
   local page=$1
-  local paths=".:$MAD_PATH:$(dirname $0)/../share/mad:/usr/share/mad"
+  local paths=".:$MAD_PATH:${0%/*}/../share/mad:/usr/share/mad"
+  # load paths into array
+  local path_array=
+  IFS=: read -a path_array <<< "$paths"
 
-  for path in $paths; do
+  for path in "${path_array[@]}"; do
     local file=$path/$page
     local ext=$path/$page.md
-    test -f $file && display_file $file
-    test -f $ext && display_file $ext
+    [[ -f "$file" ]] && display_file "$file"
+    [[ -f "$ext" ]]  && display_file "$ext"
   done
 
   echo
@@ -58,7 +67,7 @@ display() {
 #
 
 get() {
-  cat $MAD_CONFIG | grep $1 | awk '{ print $2 }'
+  grep "$1" "$MAD_CONFIG" | awk '{ print $2 }'
 }
 
 #
@@ -79,19 +88,18 @@ display_file() {
   local strong=$(get strong)
   local em=$(get em)
 
-  cat $1 \
-    | perl -pe "
-        s|^#+ *(.+)|\e[$heading\1\e[0m|g; \
-        s|\`(.+?)\`|\e[$code\1\e[0m|g; \
-        s|\*\*(.+?)\*\*|\e[$strong\1\e[0m|g; \
-        s|__(.+?)__|\e[$strong\1\e[0m|g; \
-        s|\*(.+?)\*|\e[$em\1\e[0m|g; \
-        s|_(.+?)_|\e[$em\1\e[0m|g; \
-        s|    (.+)|    \e[$code\1\e[0m|g; \
-        s|<(.+?)>||g; \
-        s|^|  |;" \
-    | less -R
-  exit
+  < "$1" perl -pe "
+      s|^#+ *(.+)|\e[$heading\1\e[0m|g; \
+      s|\`(.+?)\`|\e[$code\1\e[0m|g; \
+      s|\*\*(.+?)\*\*|\e[$strong\1\e[0m|g; \
+      s|__(.+?)__|\e[$strong\1\e[0m|g; \
+      s|\*(.+?)\*|\e[$em\1\e[0m|g; \
+      s|_(.+?)_|\e[$em\1\e[0m|g; \
+      s|    (.+)|    \e[$code\1\e[0m|g; \
+      s|<(.+?)>||g; \
+      s|^|  |;" \
+    | "$PAGER" -R
+  exit $?
 }
 
 #
@@ -99,8 +107,7 @@ display_file() {
 #
 
 display_mad_usage() {
-  display_file $(dirname $0)/../share/mad/mad.md
-  exit
+  display_file "${0%/*}/../share/mad/mad.md"
 }
 
 #
@@ -108,17 +115,19 @@ display_mad_usage() {
 #
 
 install_all_remote() {
-  local path=$(dirname $0)/../share/mad
+  local path=${0%/*}/../share/mad
   echo
   echo "  ... cloning repo"
-  cd /tmp && rm -fr mad-pages
-  git clone --depth 1 $REMOTE mad-pages
-  cd mad-pages
-  for page in *.md; do
-    echo "  ... installing $page"
-    cp -f $page $path/$page
-  done
-  echo "  ... complete"
+  cd /tmp && rm -fr mad-pages || exit 2
+  if git clone --depth 1 "$REMOTE" mad-pages && cd mad-pages; then
+    for page in *.md; do
+      echo "  ... installing $page"
+      cp -f "$page" "$path/$page"
+    done
+    echo "  ... complete"
+  else
+    echo "  ... failed!" >&2
+  fi
   echo
 }
 
@@ -129,22 +138,25 @@ install_all_remote() {
 install_mad() {
   echo
   echo "  ... cloning repo"
-  cd /tmp && rm -fr mad
-  git clone --depth 1 $REMOTE_MAD mad
-  cd mad && make install
-  echo "  ... updated to $(mad --version)"
+  cd /tmp && rm -fr mad || exit 3
+  git clone --depth 1 "$REMOTE_MAD" mad
+  if cd mad && make install; then
+    echo "  ... updated to $(mad --version)"
+  else
+    echo "  ... failed to update!" >&2
+  fi
   echo
 }
 
 # file required
 
-test $# -eq 0 && display_mad_usage
+[[ -z "$1" ]] && display_mad_usage
 
 # parse args
 
-case $1 in
+case "$1" in
   -v|--version)
-    echo $VERSION
+    echo "$VERSION"
     ;;
   -h|--help|help)
     display_mad_usage
@@ -162,6 +174,6 @@ case $1 in
     display_from_stdin
     ;;
   *)
-    display $1
+    display "$1"
     ;;
 esac
