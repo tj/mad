@@ -41,8 +41,8 @@ display() {
   for path in $paths; do
     local file=$path/$page
     local ext=$path/$page.md
-    test -f $file && display_file $file
-    test -f $ext && display_file $ext
+    [[ -f "$file" ]] && display_file $file
+    [[ -f "$ext" ]]  && display_file $ext
   done
 
   echo
@@ -138,7 +138,7 @@ install_mad() {
 
 # file required
 
-test $# -eq 0 && display_mad_usage
+[[ -z "$1" ]] && display_mad_usage
 
 # parse args
 
