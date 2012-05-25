@@ -6,25 +6,31 @@ REMOTE_MAD=git://github.com/visionmedia/mad.git
 CONFIG=$(dirname $0)/../etc/mad.conf
 MAD_CONFIG=${MAD_CONFIG:-$CONFIG}
 
+shopt -s nocasematch
+
 #
 # List all <pages>
 #
-
 list_pages() {
-  IFS=":"
   local paths="$MAD_PATH:/usr/local/share/mad:/usr/share/mad"
+  local readme_re='^readme'
+  # load paths into array
+  local path_array=
+  IFS=: read -a path_array <<< "$paths"
 
   echo
   printf "  \033[1mmad pages:\033[0m\n"
   echo
-  for path in $paths; do
-    test ! -z $path \
-      && test -d $path \
-      && find $path -type f -print0 \
-      | xargs -0 basename -a \
-      | grep -iv 'readme*' \
-      | grep '.md$' \
-      | perl -pe 's|^(.*)\.md$|    \1|;'
+  for path in ${path_array[@]}; do
+    [[ -z "$path" || ! -d "$path" ]] && continue
+    while read -r -d '' file; do
+      file=${file##*/} # basename
+      ext=${file##*.} # extension
+      raw_file=${file%.*} # filename w/o extension
+      if [[ "$ext" == "md" && ! "$raw_file" =~ $readme_re ]]; then
+        printf '    %s\n' "$raw_file"
+      fi
+    done< <(find "$path" -type f -print0)
   done
   echo
 }
