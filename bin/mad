@@ -50,8 +50,8 @@ display() {
   for path in ${path_array[@]}; do
     local file=$path/$page
     local ext=$path/$page.md
-    [[ -f "$file" ]] && display_file $file
-    [[ -f "$ext" ]]  && display_file $ext
+    [[ -f "$file" ]] && display_file "$file"
+    [[ -f "$ext" ]]  && display_file "$ext"
   done
 
   echo
@@ -119,10 +119,10 @@ install_all_remote() {
   echo
   echo "  ... cloning repo"
   cd /tmp && rm -fr mad-pages || exit 2
-  if git clone --depth 1 $REMOTE mad-pages && cd mad-pages; then
+  if git clone --depth 1 "$REMOTE" mad-pages && cd mad-pages; then
     for page in *.md; do
       echo "  ... installing $page"
-      cp -f $page $path/$page
+      cp -f "$page" "$path/$page"
     done
     echo "  ... complete"
   else
@@ -139,7 +139,7 @@ install_mad() {
   echo
   echo "  ... cloning repo"
   cd /tmp && rm -fr mad || exit 3
-  git clone --depth 1 $REMOTE_MAD mad
+  git clone --depth 1 "$REMOTE_MAD" mad
   if cd mad && make install; then
     echo "  ... updated to $(mad --version)"
   else
@@ -154,9 +154,9 @@ install_mad() {
 
 # parse args
 
-case $1 in
+case "$1" in
   -v|--version)
-    echo $VERSION
+    echo "$VERSION"
     ;;
   -h|--help|help)
     display_mad_usage
@@ -174,6 +174,6 @@ case $1 in
     display_from_stdin
     ;;
   *)
-    display $1
+    display "$1"
     ;;
 esac
