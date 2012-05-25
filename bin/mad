@@ -58,7 +58,7 @@ display() {
 #
 
 get() {
-  cat $MAD_CONFIG | grep $1 | awk '{ print $2 }'
+  grep "$1" "$MAD_CONFIG" | awk '{ print $2 }'
 }
 
 #
