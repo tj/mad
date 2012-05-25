@@ -5,6 +5,7 @@ REMOTE=git://github.com/visionmedia/mad-pages.git
 REMOTE_MAD=git://github.com/visionmedia/mad.git
 CONFIG=${0%/*}/../etc/mad.conf
 MAD_CONFIG=${MAD_CONFIG:-$CONFIG}
+PAGER=${PAGER:-less}
 
 shopt -s nocasematch
 
@@ -98,7 +99,7 @@ display_file() {
         s|    (.+)|    \e[$code\1\e[0m|g; \
         s|<(.+?)>||g; \
         s|^|  |;" \
-    | less -R
+    | "$PAGER" -R
   exit
 }
 
