@@ -99,7 +99,7 @@ display_file() {
       s|<(.+?)>||g; \
       s|^|  |;" \
     | "$PAGER" -R
-  exit
+  exit $?
 }
 
 #
@@ -108,7 +108,6 @@ display_file() {
 
 display_mad_usage() {
   display_file "${0%/*}/../share/mad/mad.md"
-  exit
 }
 
 #
