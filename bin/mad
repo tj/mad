@@ -88,17 +88,16 @@ display_file() {
   local strong=$(get strong)
   local em=$(get em)
 
-  cat $1 \
-    | perl -pe "
-        s|^#+ *(.+)|\e[$heading\1\e[0m|g; \
-        s|\`(.+?)\`|\e[$code\1\e[0m|g; \
-        s|\*\*(.+?)\*\*|\e[$strong\1\e[0m|g; \
-        s|__(.+?)__|\e[$strong\1\e[0m|g; \
-        s|\*(.+?)\*|\e[$em\1\e[0m|g; \
-        s|_(.+?)_|\e[$em\1\e[0m|g; \
-        s|    (.+)|    \e[$code\1\e[0m|g; \
-        s|<(.+?)>||g; \
-        s|^|  |;" \
+  < "$1" perl -pe "
+      s|^#+ *(.+)|\e[$heading\1\e[0m|g; \
+      s|\`(.+?)\`|\e[$code\1\e[0m|g; \
+      s|\*\*(.+?)\*\*|\e[$strong\1\e[0m|g; \
+      s|__(.+?)__|\e[$strong\1\e[0m|g; \
+      s|\*(.+?)\*|\e[$em\1\e[0m|g; \
+      s|_(.+?)_|\e[$em\1\e[0m|g; \
+      s|    (.+)|    \e[$code\1\e[0m|g; \
+      s|<(.+?)>||g; \
+      s|^|  |;" \
     | "$PAGER" -R
   exit
 }
