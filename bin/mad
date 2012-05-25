@@ -22,7 +22,7 @@ list_pages() {
   echo
   printf "  \033[1mmad pages:\033[0m\n"
   echo
-  for path in ${path_array[@]}; do
+  for path in "${path_array[@]}"; do
     [[ -z "$path" || ! -d "$path" ]] && continue
     while read -r -d '' file; do
       file=${file##*/} # basename
@@ -47,7 +47,7 @@ display() {
   local path_array=
   IFS=: read -a path_array <<< "$paths"
 
-  for path in ${path_array[@]}; do
+  for path in "${path_array[@]}"; do
     local file=$path/$page
     local ext=$path/$page.md
     [[ -f "$file" ]] && display_file "$file"
