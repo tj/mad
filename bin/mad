@@ -40,11 +40,13 @@ list_pages() {
 #
 
 display() {
-  IFS=":"
   local page=$1
   local paths=".:$MAD_PATH:${0%/*}/../share/mad:/usr/share/mad"
+  # load paths into array
+  local path_array=
+  IFS=: read -a path_array <<< "$paths"
 
-  for path in $paths; do
+  for path in ${path_array[@]}; do
     local file=$path/$page
     local ext=$path/$page.md
     [[ -f "$file" ]] && display_file $file
