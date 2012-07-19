@@ -1,0 +1,21 @@
+{
+  "name": "mad",
+  "version": "0.4.0",
+  "description": "Markdown manpages",
+  "bin": {
+    "mad": "bin/mad"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/visionmedia/mad.git"
+  },
+  "keywords": [
+    "mad",
+    "markdown",
+    "manpage",
+    "docs",
+    "documentation"
+  ],
+  "author": "TJ Holowaychuk",
+  "license": "MIT"
+}
