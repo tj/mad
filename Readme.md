@@ -29,6 +29,10 @@
 
     $ make uninstall
 
+  Via npm:
+
+    $ npm install -g mad
+
 ## About
 
   I _love_ man pages, however they are annoying to write by hand,
