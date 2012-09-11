@@ -1,0 +1,10 @@
+function _mad {
+  local cur pages
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  pages="`mad -l | awk '/^    / { print substr($0, 5) }' | tr '\n' ' '`"
+  COMPREPLY=( $(compgen -W "${pages}" -- ${cur}) )
+  return 0
+}
+complete -F _mad mad
+
+# vim:ft=sh
