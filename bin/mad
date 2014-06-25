@@ -82,6 +82,8 @@ display_from_stdin() {
 display_file() {
   local heading=$(get heading)
   local code=$(get code)
+  local link=$(get link)
+  local url=$(get url)
   local strong=$(get strong)
   local em=$(get em)
 
@@ -93,6 +95,7 @@ display_file() {
       s|\*(.+?)\*|\e[$em\1\e[0m|g; \
       s|_(.+?)_|\e[$em\1\e[0m|g; \
       s|    (.+)|    \e[$code\1\e[0m|g; \
+      s|\[(.+)\]\((.+)\)|\e[$em\e[$link\1\e[0m \e[$url(\2)\e[0m|g; \
       s|<(.+?)>||g; \
       s|^|  |;" \
     | less -R
