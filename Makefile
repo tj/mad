@@ -11,7 +11,7 @@ install:
 	cp -f bin/mad $(PREFIX)/bin/mad
 	cp -f share/mad/mad.md $(PREFIX)/share/mad/mad.md
 	cp -f etc/mad.conf $(PREFIX)/etc/mad.conf
-	cp -f autocompletion/mad $(COMPLETION)/mad
+	cp -f etc/bash_completion/mad $(COMPLETION)/mad
 
 uninstall:
 	rm -f $(PREFIX)/bin/mad
