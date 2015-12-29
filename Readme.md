@@ -4,6 +4,8 @@
   `mad(1)` is a markdown driven manual page viewer,
   this makes manuals easier to _write_, _reuse_, and
   _read_.
+  
+  For a newer / actively maintained thing check out [tldr](https://github.com/tldr-pages/tldr).
 
   ![markdown man page](http://f.cl.ly/items/2G271F3c0D3p2i2V3l3k/Screen%20Shot%202012-04-14%20at%2012.44.58%20PM.png)
 
