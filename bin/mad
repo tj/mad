@@ -3,7 +3,13 @@
 VERSION="0.4.1"
 REMOTE=git://github.com/visionmedia/mad-pages.git
 REMOTE_MAD=git://github.com/visionmedia/mad.git
-CONFIG=$(dirname $0)/../etc/mad.conf
+
+BINPATH=$0
+if [ -h "$BINPATH" ]; then
+    BINPATH=$(readlink "$BINPATH")
+fi
+MAD_ROOT=$(dirname "$BINPATH")
+CONFIG=${MAD_ROOT}/../etc/mad.conf
 MAD_CONFIG=${MAD_CONFIG:-$CONFIG}
 
 #
@@ -36,7 +42,7 @@ list_pages() {
 display() {
   IFS=":"
   local page=$1
-  local paths=".:$MAD_PATH:$(dirname $0)/../share/mad:/usr/share/mad"
+  local paths=".:$MAD_PATH:${MAD_ROOT}/../share/mad:/usr/share/mad"
 
   for path in $paths; do
     local file=$path/$page
@@ -58,7 +64,7 @@ display() {
 #
 
 get() {
-  grep "$1" "$MAD_CONFIG" | awk '{ print $2 }'
+  grep "^$1:" "$MAD_CONFIG" | awk '{ print $2 }'
 }
 
 #
@@ -76,6 +82,8 @@ display_from_stdin() {
 display_file() {
   local heading=$(get heading)
   local code=$(get code)
+  local link=$(get link)
+  local url=$(get url)
   local strong=$(get strong)
   local em=$(get em)
 
@@ -87,6 +95,7 @@ display_file() {
       s|\*(.+?)\*|\e[$em\1\e[0m|g; \
       s|_(.+?)_|\e[$em\1\e[0m|g; \
       s|    (.+)|    \e[$code\1\e[0m|g; \
+      s|\[(.+)\]\((.+)\)|\e[$em\e[$link\1\e[0m \e[$url(\2)\e[0m|g; \
       s|<(.+?)>||g; \
       s|^|  |;" \
     | less -R
@@ -98,7 +107,7 @@ display_file() {
 #
 
 display_mad_usage() {
-  display_file $(dirname $0)/../share/mad/mad.md
+  display_file ${MAD_ROOT}/../share/mad/mad.md
   exit
 }
 
@@ -107,7 +116,7 @@ display_mad_usage() {
 #
 
 install_all_remote() {
-  local path=$(dirname $0)/../share/mad
+  local path=${MAD_ROOT}/../share/mad
   echo
   echo "  ... cloning repo"
   cd /tmp && rm -fr mad-pages
